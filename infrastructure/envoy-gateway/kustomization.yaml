@@ -16,6 +16,7 @@ helmCharts:
     version: v1.8.2
     releaseName: envoy-gateway
     namespace: envoy-gateway
+    valuesFile: crds-values.yaml
   
 resources:
   - namespace.yaml
