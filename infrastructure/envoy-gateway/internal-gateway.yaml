@@ -14,13 +14,3 @@ spec:
       selector:
         matchLabels:
           gateway: internal
-  - name: https
-    protocol: HTTPS
-    port: 443
-    tls:
-      mode: Terminate
-    routes:
-      kind: HTTPRoute
-      selector:
-        matchLabels:
-          gateway: internal
