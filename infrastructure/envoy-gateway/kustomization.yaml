@@ -21,4 +21,3 @@ resources:
   - namespace.yaml
   - gatewayclass.yaml
   - internal-gateway.yaml
-  - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml
