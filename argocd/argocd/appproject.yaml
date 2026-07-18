@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: elk-project
+  namespace: argocd
+spec:
+  description: "Argo CD project for deploying apps in the ELK environment."
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: 'https://kubernetes.default.svc'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

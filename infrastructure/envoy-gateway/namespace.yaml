@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: envoy-gateway
+  labels:
+    name: envoy-gateway
+    app.kubernetes.io/managed-by: argocd
+
