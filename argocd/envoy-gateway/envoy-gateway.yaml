@@ -17,8 +17,11 @@ spec:
         path: 'infrastructure/envoy-gateway'
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: '{{namespace}}'
+        namespace: 'envoy-gateway'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
