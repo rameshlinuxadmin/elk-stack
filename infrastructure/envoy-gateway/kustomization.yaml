@@ -10,6 +10,12 @@ helmCharts:
     releaseName: envoy-gateway
     namespace: envoy-gateway
     valuesFile: values.yaml
+
+  - name: gateway-crds-helm
+    repo: oci://docker.io/envoyproxy/
+    version: v1.8.2
+    releaseName: envoy-gateway
+    namespace: envoy-gateway
   
 resources:
   - namespace.yaml
