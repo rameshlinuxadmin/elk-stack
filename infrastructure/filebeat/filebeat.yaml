@@ -32,6 +32,7 @@ spec:
   daemonSet:
     podTemplate:
       spec:
+        serviceAccountName: filebeat
         dnsPolicy: ClusterFirstWithHostNet
 
         hostNetwork: true
