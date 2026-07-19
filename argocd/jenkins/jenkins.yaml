@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: 'jenkins'
+    spec:
+      project: elk-project
+      source:
+        repoURL: 'https://github.com/rameshlinuxadmin/elk-stack.git'
+        targetRevision: HEAD
+        path: 'infrastructure/jenkins'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'jenkins'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

@@ -1,0 +1,14 @@
+  admin:
+    username: "admin"
+    password: "admin"
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
+    createSecret: true
+  jenkinsHome: "/var/jenkins_home"
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
