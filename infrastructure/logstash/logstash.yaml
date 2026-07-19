@@ -1,0 +1,60 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+  name: logstash
+  namespace: elastic-system
+spec:
+  version: 9.1.2
+
+  count: 1
+
+  elasticsearchRefs:
+    - clusterName: elasticsearch
+      name: elasticsearch
+
+  pipelines:
+    - pipeline.id: main
+      config.string: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
+
+        output {
+          elasticsearch {
+            hosts => ["https://elasticsearch-es-http.elastic-system.svc:9200"]
+            user => "elastic"
+            password => "${ELASTIC_PASSWORD}"
+            ssl_enabled => false
+          }
+
+          stdout { codec => rubydebug }
+        }
+
+  services:
+    - name: beats
+      service:
+        spec:
+          ports:
+            - port: 5044
+              targetPort: 5044
+              protocol: TCP
+
+  podTemplate:
+    spec:
+      containers:
+        - name: logstash
+          env:
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-es-elastic-user
+                  key: elastic
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "1"
+              memory: 2Gi

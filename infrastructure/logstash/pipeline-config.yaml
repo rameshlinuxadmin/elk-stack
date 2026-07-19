@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-pipeline
+  namespace: elastic-system
+data:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["https://elasticsearch-es-http.elastic-system.svc:9200"]
+        user => "elastic"
+        password => "${ELASTIC_PASSWORD}"
+        ssl_enabled => false
+      }
+
+      stdout {
+        codec => rubydebug
+      }
+    }
