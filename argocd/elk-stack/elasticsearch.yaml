@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: elasticsearch
+  namespace: argocd
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: 'elasticsearch'
+    spec:
+      project: elk-project
+      source:
+        repoURL: 'https://github.com/rameshlinuxadmin/elk-stack.git'
+        targetRevision: HEAD
+        path: 'infrastructure/elasticsearch'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'elastic-system'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
