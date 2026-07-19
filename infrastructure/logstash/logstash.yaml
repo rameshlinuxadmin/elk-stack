@@ -23,7 +23,7 @@ spec:
 
         output {
           elasticsearch {
-            hosts => ["https://elasticsearch-es-http.elastic-system.svc:9200"]
+            hosts => ["http://elasticsearch-es-http.elastic-system.svc:9200"]
             user => "elastic"
             password => "${ELASTIC_PASSWORD}"
             ssl_enabled => false
