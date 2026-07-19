@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: elk-stack
+  namespace: argocd
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: 'elk-stack'
+    spec:
+      project: elk-project
+      source:
+        repoURL: 'https://github.com/rameshlinuxadmin/elk-stack.git'
+        targetRevision: HEAD
+        path: 'argocd/elk-stack'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'argocd'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true

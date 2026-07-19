@@ -7,9 +7,6 @@ spec:
   type: filebeat
   version: 9.1.2
 
-  elasticsearchRef:
-    name: elasticsearch
-
   config:
     filebeat.inputs:
       - type: filestream
