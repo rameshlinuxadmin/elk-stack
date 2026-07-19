@@ -27,7 +27,7 @@ spec:
             user => "elastic"
             password => "${ELASTIC_PASSWORD}"
             ssl_enabled => true
-            ssl_certificate_authority => "/usr/share/logstash/config/certs/ca.crt"
+            ssl_certificate_authorities => ["/usr/share/logstash/config/certs/ca.crt"]
             index => "filebeat-%{+YYYY.MM.dd}"
           }
 
@@ -53,6 +53,10 @@ spec:
                 secretKeyRef:
                   name: elasticsearch-es-elastic-user
                   key: elastic
+          volumeMounts:
+            - name: elastic-ca
+              mountPath: /usr/share/logstash/config/certs
+              readOnly: true
           resources:
             requests:
               cpu: 500m
@@ -60,3 +64,8 @@ spec:
             limits:
               cpu: "1"
               memory: 2Gi
+
+      volumes:
+        - name: elastic-ca
+          secret:
+            secretName: elasticsearch-es-http-certs-public
