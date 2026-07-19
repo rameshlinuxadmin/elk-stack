@@ -30,9 +30,6 @@ spec:
   daemonSet:
     podTemplate:
       spec:
-        serviceAccountName: filebeat
-        automountServiceAccountToken: true
-
         dnsPolicy: ClusterFirstWithHostNet
 
         hostNetwork: true
