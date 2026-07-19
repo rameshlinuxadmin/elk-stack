@@ -5,12 +5,11 @@ metadata:
   namespace: elastic-system
 spec:
   version: 9.1.2
-
   count: 1
-
   elasticsearchRef:
     name: elasticsearch
-
+  server.basePath: "/kibana"
+  server.rewriteBasePath: true
   http:
     tls:
       selfSignedCertificate:
