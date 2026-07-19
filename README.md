@@ -42,6 +42,8 @@ All resources are deployed in the `elastic-system` namespace, managed as ArgoCD 
 - ECK operator installed
 - ArgoCD installed and configured with access to this repo
 
+![ArgoCD](ELKimages/argocd.png)
+
 ## Deployment
 
 All resources in this repo are managed via **ArgoCD (GitOps)**. Manifests are not applied manually with `kubectl` — changes are made in this repo and synced by ArgoCD.
@@ -130,6 +132,7 @@ kubectl logs -n elastic-system -l beat.k8s.elastic.co/name=filebeat | grep -i ha
 ```
 kubernetes.container.name : "envoy-gateway"
 ```
+![Kibana logs](ELK/images/Kibana-logs.png)
 
 ## Known limitations
 
