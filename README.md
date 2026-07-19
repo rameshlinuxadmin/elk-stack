@@ -34,31 +34,41 @@ Kubernetes Pods (all namespaces)
 | Kibana | 9.1.2 | UI for querying and visualizing logs |
 | Filebeat | 9.1.2 | DaemonSet, tails container logs on every node |
 
-All resources are deployed in the `elastic-system` namespace.
+All resources are deployed in the `elastic-system` namespace, managed as ArgoCD Applications sourced from this repo: [rameshlinuxadmin/elk-stack](https://github.com/rameshlinuxadmin/elk-stack/).
 
 ## Prerequisites
 
 - Kubernetes cluster (tested on Docker Desktop Kubernetes, single node, Docker runtime)
 - ECK operator installed
-- `kubectl` access to the cluster
+- ArgoCD installed and configured with access to this repo
 
 ## Deployment
 
-Apply manifests in this order:
+All resources in this repo are managed via **ArgoCD (GitOps)**. Manifests are not applied manually with `kubectl` — changes are made in this repo and synced by ArgoCD.
+
+Typical workflow:
 
 ```bash
-kubectl apply -f elasticsearch.yaml
-kubectl apply -f logstash.yaml
-kubectl apply -f kibana.yaml
-kubectl apply -f filebeat-rbac.yaml
-kubectl apply -f filebeat.yaml
+# 1. Edit the manifest in this repo (e.g. filebeat.yaml)
+# 2. Commit and push
+git add filebeat.yaml
+git commit -m "fix: enable filestream symlink following"
+git push
+
+# 3. ArgoCD syncs automatically (or manually trigger a sync)
+Check sync/health status:
+
+```bash
+kubectl get applications -n argocd
 ```
 
-Wait for all pods to be `Running`:
+Confirm pods are running after a sync:
 
 ```bash
 kubectl get pods -n elastic-system -w
 ```
+
+> **Note on applying fixes:** every fix described below (RBAC, filestream symlinks/fingerprinting, Logstash TLS) was originally diagnosed by editing manifests directly and applying with `kubectl apply` for a fast feedback loop, then committing the working version back into this repo for ArgoCD to track as the source of truth. If ArgoCD is set to auto-sync with self-heal enabled, manual `kubectl apply`/`edit` changes will be reverted on the next reconciliation — disable auto-sync temporarily or edit the repo directly when iterating.
 
 ## Filebeat RBAC
 
@@ -134,4 +144,10 @@ kubernetes.container.name : "envoy-gateway"
 - Data stream migration (`logs-filebeat.generic-default`) for proper ECS field typing
 - Metrics/APM collection alongside logs
 - Alerting rules on error-level log patterns
-- Integration with Jenkins, ArgoCD, and Envoy Gateway deployed elsewhere in this cluster
+- Documented integration between this stack, Jenkins, and Envoy Gateway deployed elsewhere in this cluster (currently deployed but not yet documented here)
+
+## Related repos / stack
+
+- **Jenkins** — CI (repo/location not yet documented here)
+- **ArgoCD** — GitOps delivery for this repo and others in the cluster
+- **Envoy Gateway** — ingress (repo/location not yet documented here)
