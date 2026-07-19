@@ -6,6 +6,7 @@ controller:
     passwordKey: jenkins-admin-password
     createSecret: true
   jenkinsHome: "/var/jenkins_home"
+  jenkinsUriPrefix: /jenkins
   resources:
     requests:
       cpu: "50m"
