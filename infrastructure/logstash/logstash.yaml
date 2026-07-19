@@ -23,10 +23,12 @@ spec:
 
         output {
           elasticsearch {
-            hosts => ["http://elasticsearch-es-http.elastic-system.svc:9200"]
+            hosts => ["https://elasticsearch-es-http.elastic-system.svc:9200"]
             user => "elastic"
             password => "${ELASTIC_PASSWORD}"
-            ssl_enabled => false
+            ssl_enabled => true
+            ssl_certificate_authority => "/usr/share/logstash/config/certs/ca.crt"
+            index => "filebeat-%{+YYYY.MM.dd}"
           }
 
           stdout { codec => rubydebug }
