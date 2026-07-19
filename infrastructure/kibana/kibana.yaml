@@ -8,13 +8,13 @@ spec:
   count: 1
   elasticsearchRef:
     name: elasticsearch
-  server.basePath: "/kibana"
-  server.rewriteBasePath: true
   http:
     tls:
       selfSignedCertificate:
         disabled: true
-
+  config:
+    server.basePath: "/kibana"
+    server.rewriteBasePath: true
   podTemplate:
     spec:
       containers:
