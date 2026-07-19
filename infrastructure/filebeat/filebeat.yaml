@@ -13,8 +13,9 @@ spec:
         id: kubernetes-container-logs
         paths:
           - /var/log/containers/*.log
-        file_identity.native: ~
         prospector.scanner.symlinks: true
+        prospector.scanner.fingerprint.enabled: false
+        file_identity.native: ~
 
     processors:
       - add_host_metadata: {}
