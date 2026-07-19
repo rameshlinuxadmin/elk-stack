@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: eck-operator
+  namespace: argocd
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: 'eck-operator'
+    spec:
+      project: elk-project
+      source:
+        repoURL: 'https://github.com/rameshlinuxadmin/elk-stack.git'
+        targetRevision: HEAD
+        path: 'infrastructure/eck-operator'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'elastic-system'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
