@@ -2134,7 +2134,10 @@ server:
   imagePullSecrets: []
 
   # -- Additional command line arguments to pass to Argo CD server
-  extraArgs: []
+  extraArgs:
+    - --insecure
+    - --rootpath=/argocd
+    - --basehref=/argocd
 
   # -- Environment variables to pass to Argo CD server
   env: []
